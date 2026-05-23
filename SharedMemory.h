@@ -103,12 +103,13 @@ struct SharedMemory
   }
 
 private:
-  const char *name_;
   T           header_;
-  std::size_t size_;
   int         fd_;
-  void       *map_;
+  std::size_t size_;
+
   T          *buffer_;
+  void       *map_;
+  const char *name_;
 };
 
 #endif // CC_EXECUTABLE_SHAREDMEMORY_H
