@@ -1,0 +1,8 @@
+BasedOnStyle: GNU
+# Align variable names
+AlignConsecutiveAssignments: true
+AlignConsecutiveDeclarations: true
+# Align trailing comments
+AlignTrailingComments: true
+# This ensures lines wrap at 79 chars like the GNU hook you wrote
+ColumnLimit: 0
