@@ -20,7 +20,6 @@
 
 #include <cstddef>
 #include <cstdint>
-#include <cstring>
 #include <fcntl.h>
 #include <iostream>
 #include <map>
