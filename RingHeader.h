@@ -39,8 +39,9 @@ struct RingHeader
   void SetSlotSize (uint32_t slot_size);
   void SetNumberOfSlots (uint32_t number_of_slots);
 
-  [[nodiscard]] bool Push (uint8_t* dst, uint8_t* src, uint32_t slot_size);
-  [[nodiscard]] bool Pop (uint8_t* dst, uint8_t* src, uint32_t slot_size);
+  [[nodiscard]] bool Push (void *map, const uint8_t *data, uint32_t size);
+  [[nodiscard]] bool Pop (void *map, uint8_t *data, uint32_t size);
+  void               Stat (const void *map, uint32_t size) const;
 
 private:
   uint32_t head_{ 0 };

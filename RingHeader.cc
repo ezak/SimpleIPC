@@ -17,6 +17,9 @@
 
 #include "RingHeader.h"
 
+#include <cstring>
+#include <iostream>
+
 uint32_t
 RingHeader::GetHead () const
 {
@@ -66,15 +69,96 @@ RingHeader::SetNumberOfSlots (const uint32_t number_of_slots)
 }
 
 bool
-RingHeader::Push (uint8_t *dst, uint8_t *src, uint32_t slot_size)
+RingHeader::Push (void *map, const uint8_t *data, const uint32_t size)
 {
+  if (!data || size == 0)
+    return false;
 
-  return false;
+  if (size > GetSlotSize ())
+    {
+      std::cerr << R"(Error: Payload size )" << size << " exceeds maximum slot size " << GetSlotSize () << std::endl;
+      return false;
+    }
+
+  const uint32_t current_head = GetHead ();
+  const uint32_t current_tail = GetTail ();
+  const uint32_t num_slots    = GetNumberOfSlots ();
+
+  if (((current_head + 1) % num_slots) == current_tail)
+    return false; // Buffer overflow (Full) condition
+
+  uint8_t *shm_base    = static_cast<uint8_t *> (map) + sizeof (RingHeader);
+  uint8_t *target_slot = shm_base + (current_head * GetSlotSize ());
+
+  std::memmove (target_slot, data, size);
+
+  SetHead ((current_head + 1) % num_slots);
+
+  return true;
 }
 
 bool
-RingHeader::Pop (uint8_t *dst, uint8_t *src, uint32_t slot_size)
+RingHeader::Pop (void *map, uint8_t *data, const uint32_t size)
 {
-  return false;
+  if (!data || size == 0)
+    {
+      return false;
+    }
+
+  if (size < GetSlotSize ())
+    {
+      std::cerr << "Error: Output buffer size " << size << " is too small for slot size " << GetSlotSize () << std::endl;
+      return false;
+    }
+
+  const uint32_t current_head = GetHead ();
+  const uint32_t current_tail = GetTail ();
+  const uint32_t num_slots    = GetNumberOfSlots ();
+
+  if (current_head == current_tail)
+    {
+      return false; // Underflow condition (nothing new to read)
+    }
+
+  const uint8_t *base        = static_cast<uint8_t *> (map) + sizeof (RingHeader);
+  const uint8_t *source_slot = base + (current_tail * GetSlotSize ());
+
+  std::memmove (data, source_slot, GetSlotSize ());
+
+  SetTail ((current_tail + 1) % num_slots);
+  return true;
 }
 
+void
+RingHeader::Stat (const void *map, const uint32_t size) const
+{
+  const uint32_t head  = GetHead ();
+  const uint32_t tail  = GetTail ();
+  const uint32_t slots = GetNumberOfSlots ();
+
+  // Calculate how many slots are currently holding unread data
+  uint32_t occupied_slots = 0;
+  if (head >= tail)
+    {
+      occupied_slots = head - tail;
+    }
+  else
+    {
+      occupied_slots = (slots - tail) + head;
+    }
+
+  std::cout << "========= SHM RING BUFFER STATE =========" << "\n"
+            << "  Mapped Address : " << map << "\n"
+            << "  Total SHM Size : " << size << " bytes\n"
+            << "  Head Index     : " << head << "\n"
+            << "  Tail Index     : " << tail << "\n"
+            << "  Slot Dimension : " << GetSlotSize () << " bytes\n"
+            << "  Capacity       : " << occupied_slots << " / " << slots << " slots used\n";
+  if (head == tail)
+    std::cout << "  Status         : EMPTY\n";
+  else if (((head + 1) % slots) == tail)
+    std::cout << "  Status         : FULL (Block Warning)\n";
+  else
+    std::cout << "  Status         : ACTIVE\n";
+  std::cout << "=========================================" << std::endl;
+}
