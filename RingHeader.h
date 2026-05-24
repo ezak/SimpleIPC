@@ -22,7 +22,6 @@
 
 struct RingHeader
 {
-
   /**
    *
    * @param slot_size Number of slots for the data

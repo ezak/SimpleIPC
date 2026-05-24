@@ -26,10 +26,11 @@ main ()
 {
   auto event = std::make_shared<Event> ();
 
-  const auto shared_memory = std::make_shared<SharedMemory<RingHeader>> ("nemo", RingHeader{256, 8});
+  const auto shared_memory = std::make_shared<SharedMemory<RingHeader>> ("nemo", RingHeader{ 256, 8 });
 
   constexpr uint8_t d[2] = { 0x01, 0x02 };
   auto              res  = shared_memory->Write (d, 2);
+
   if (res)
     shared_memory->Stats ();
 
