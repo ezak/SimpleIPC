@@ -26,17 +26,17 @@
 #include <sys/mman.h>
 #include <unistd.h>
 
-template <typename T>
+template <typename H>
 struct SharedMemory
 {
-  SharedMemory (const char *name, T header) : name_ (name), header_ (header)
+  SharedMemory (const char *name, H header) : name_ (name), header_ (header)
   {
     fd_ = shm_open (name_, O_CREAT | O_RDWR, 0666);
     if (fd_ == -1)
       throw std::runtime_error ("shm_open failed");
 
     // Uses safely initialized fields from our stack instance 'header_'
-    size_ = sizeof (T) + (header_.GetSlotSize () * header_.GetNumberOfSlots ());
+    size_ = sizeof (H) + (header_.GetSlotSize () * header_.GetNumberOfSlots ());
 
     if (ftruncate (fd_, size_) == -1)
       {
@@ -52,13 +52,13 @@ struct SharedMemory
       }
 
     // Bind the pointer to the region
-    buffer_ = static_cast<T *> (map_);
+    buffer_ = static_cast<H *> (map_);
 
     // Only run placement-new constructor if we are initializing it for the first time
     // This prevents a secondary process from wiping out head/tail markers!
     if (buffer_->GetSlotSize () != header_.GetSlotSize ())
       {
-        ::new (map_) T (header_.GetSlotSize (), header_.GetNumberOfSlots ());
+        ::new (map_) H (header_.GetSlotSize (), header_.GetNumberOfSlots ());
       }
   }
 
@@ -104,9 +104,9 @@ struct SharedMemory
 private:
   // The order must much the order of the constructor parameters
   const char *name_;
-  T           header_;
+  H           header_;
 
-  T          *buffer_;
+  H          *buffer_;
   void       *map_;
   int         fd_;
   std::size_t size_;
