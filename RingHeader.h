@@ -15,8 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef CC_EXECUTABLE_RINGHEADER_H
-#define CC_EXECUTABLE_RINGHEADER_H
+#ifndef SIMPLEIPC_RINGHEADER_H
+#define SIMPLEIPC_RINGHEADER_H
 
 #include <cstdint>
 
@@ -45,4 +45,4 @@ private:
   uint32_t number_of_slots_{ 0 };
 };
 
-#endif // CC_EXECUTABLE_RINGHEADER_H
+#endif // SIMPLEIPC_RINGHEADER_H

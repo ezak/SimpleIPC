@@ -15,8 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef CC_EXECUTABLE_SHAREDMEMORY_H
-#define CC_EXECUTABLE_SHAREDMEMORY_H
+#ifndef SIMPLEIPC_SHAREDMEMORY_H
+#define SIMPLEIPC_SHAREDMEMORY_H
 
 #include <cstddef>
 #include <cstdint>
@@ -112,4 +112,4 @@ private:
   std::size_t size_;
 };
 
-#endif // CC_EXECUTABLE_SHAREDMEMORY_H
+#endif // SIMPLEIPC_SHAREDMEMORY_H

@@ -15,8 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef CC_EXECUTABLE_EVENT_H
-#define CC_EXECUTABLE_EVENT_H
+#ifndef SIMPLEIPC_EVENT_H
+#define SIMPLEIPC_EVENT_H
 
 class Event
 {
@@ -31,4 +31,4 @@ public:
   [[nodiscard]] bool Write () const;
 };
 
-#endif // CC_EXECUTABLE_EVENT_H
+#endif // SIMPLEIPC_EVENT_H
