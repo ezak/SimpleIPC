@@ -30,15 +30,9 @@ struct RingHeader
   RingHeader (const uint32_t slot_size, const uint32_t number_of_slots) : slot_size_ (slot_size), number_of_slots_ (number_of_slots) {}
   ~RingHeader () = default;
 
-  [[nodiscard]] uint32_t GetHead () const;
-  [[nodiscard]] uint32_t GetTail () const;
+
   [[nodiscard]] uint32_t GetSlotSize () const;
   [[nodiscard]] uint32_t GetNumberOfSlots () const;
-
-  void SetHead (uint32_t head);
-  void SetTail (uint32_t tail);
-  void SetSlotSize (uint32_t slot_size);
-  void SetNumberOfSlots (uint32_t number_of_slots);
 
   [[nodiscard]] bool Push (void *map, const uint8_t *data, uint32_t size);
   [[nodiscard]] bool Pop (void *map, uint8_t *data, uint32_t size);

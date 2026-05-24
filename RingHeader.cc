@@ -21,18 +21,6 @@
 #include <iostream>
 
 uint32_t
-RingHeader::GetHead () const
-{
-  return head_;
-}
-
-uint32_t
-RingHeader::GetTail () const
-{
-  return tail_;
-}
-
-uint32_t
 RingHeader::GetSlotSize () const
 {
   return slot_size_;
@@ -42,30 +30,6 @@ uint32_t
 RingHeader::GetNumberOfSlots () const
 {
   return number_of_slots_;
-}
-
-void
-RingHeader::SetHead (const uint32_t head)
-{
-  head_ = head;
-}
-
-void
-RingHeader::SetTail (const uint32_t tail)
-{
-  tail_ = tail;
-}
-
-void
-RingHeader::SetSlotSize (const uint32_t slot_size)
-{
-  slot_size_ = slot_size;
-}
-
-void
-RingHeader::SetNumberOfSlots (const uint32_t number_of_slots)
-{
-  number_of_slots_ = number_of_slots;
 }
 
 /**
