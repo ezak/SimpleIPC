@@ -68,6 +68,13 @@ RingHeader::SetNumberOfSlots (const uint32_t number_of_slots)
   number_of_slots_ = number_of_slots;
 }
 
+/**
+ *
+ * @param map A void pointer to the Shared Memory file discriptor
+ * @param data A pointer to which the value in the ring buffer is poped
+ * @param size The size of the Shared Memory
+ * @return On success return true else returnes false
+ */
 bool
 RingHeader::Push (void *map, const uint8_t *data, const uint32_t size)
 {
@@ -97,6 +104,13 @@ RingHeader::Push (void *map, const uint8_t *data, const uint32_t size)
   return true;
 }
 
+/**
+ *
+ * @param map A void pointer to the Shared Memory file discriptor
+ * @param data A pointer to which the value in the ring buffer is poped
+ * @param size The size of the Shared Memory
+ * @return On success return true else returnes false
+ */
 bool
 RingHeader::Pop (void *map, uint8_t *data, const uint32_t size)
 {
@@ -130,6 +144,11 @@ RingHeader::Pop (void *map, uint8_t *data, const uint32_t size)
   return true;
 }
 
+/**
+ *
+ * @param map A pointer to the map of the shared memory file discriptor
+ * @param size The size of the Shared Memory
+ */
 void
 RingHeader::Stat (const void *map, const uint32_t size) const
 {
