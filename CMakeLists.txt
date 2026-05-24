@@ -11,4 +11,6 @@ add_executable(${PROJECT_NAME}
         SharedMemory.cc
         SharedMemory.h
         RingHeader.cc
-        RingHeader.h)
+        RingHeader.h
+        Buffer.cc
+        Buffer.h)
