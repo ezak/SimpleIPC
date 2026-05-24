@@ -102,7 +102,7 @@ struct SharedMemory
   }
 
 private:
-  // The order must be as follows matching the constructor
+  // The order must much the order of the constructor parameters
   const char *name_;
   T           header_;
 
