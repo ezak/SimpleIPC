@@ -124,31 +124,31 @@ RingHeader::Pop (void *map, uint8_t *data, const uint32_t size)
 void
 RingHeader::Stat (const void *map, const uint32_t size) const
 {
-  const uint32_t head  = head_;
-  const uint32_t tail  = tail_;
-  const uint32_t slots = number_of_slots_;
+  const uint32_t current_head  = head_;
+  const uint32_t current_tail  = tail_;
+  const uint32_t num_slots = number_of_slots_;
 
   // Calculate how many slots are currently holding unread data
   uint32_t occupied_slots = 0;
-  if (head >= tail)
+  if (current_head >= current_tail)
     {
-      occupied_slots = head - tail;
+      occupied_slots = current_head - current_tail;
     }
   else
     {
-      occupied_slots = (slots - tail) + head;
+      occupied_slots = (num_slots - current_tail) + current_head;
     }
 
   std::cout << "========= SHM RING BUFFER STATE =========" << "\n"
             << "  Mapped Address : " << map << "\n"
             << "  Total SHM Size : " << size << " bytes\n"
-            << "  Head Index     : " << head << "\n"
-            << "  Tail Index     : " << tail << "\n"
+            << "  Head Index     : " << current_head << "\n"
+            << "  Tail Index     : " << current_tail << "\n"
             << "  Slot Dimension : " << slot_size_ << " bytes\n"
-            << "  Capacity       : " << occupied_slots << " / " << slots << " slots used\n";
-  if (head == tail)
+            << "  Capacity       : " << occupied_slots << " / " << num_slots << " slots used\n";
+  if (current_head == current_tail)
     std::cout << "  Status         : EMPTY\n";
-  else if (((head + 1) % slots) == tail)
+  else if (((current_head + 1) % num_slots) == current_tail)
     std::cout << "  Status         : FULL (Block Warning)\n";
   else
     std::cout << "  Status         : ACTIVE\n";
