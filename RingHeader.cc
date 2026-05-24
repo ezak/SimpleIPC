@@ -124,9 +124,9 @@ RingHeader::Pop (void *map, uint8_t *data, const uint32_t size)
 void
 RingHeader::Stat (const void *map, const uint32_t size) const
 {
-  const uint32_t current_head  = head_;
-  const uint32_t current_tail  = tail_;
-  const uint32_t num_slots = number_of_slots_;
+  const uint32_t current_head = head_;
+  const uint32_t current_tail = tail_;
+  const uint32_t num_slots    = number_of_slots_;
 
   // Calculate how many slots are currently holding unread data
   uint32_t occupied_slots = 0;
