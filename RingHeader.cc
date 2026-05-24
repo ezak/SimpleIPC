@@ -92,7 +92,7 @@ RingHeader::Push (void *map, const uint8_t *data, const uint32_t size)
 
   std::memmove (target_slot, data, size);
 
-  SetHead ((current_head + 1) % num_slots);
+  head_ = (current_head + 1) % num_slots;
 
   return true;
 }
@@ -125,7 +125,8 @@ RingHeader::Pop (void *map, uint8_t *data, const uint32_t size)
 
   std::memmove (data, source_slot, slot_size_);
 
-  SetTail ((current_tail + 1) % num_slots);
+  tail_ = (current_tail + 1) % num_slots;
+
   return true;
 }
 
