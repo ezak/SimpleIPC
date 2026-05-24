@@ -20,13 +20,15 @@
 
 #include <cstdint>
 
-#define DEAFULE_NUM_SLOTS 8
-#define DEAFULT_SLOT_SIZE 256 // Max size allocated per FlatBuffer payload
-
 struct RingHeader
 {
 
-  RingHeader ()  = default;
+  /**
+   *
+   * @param slot_size Number of slots for the data
+   * @param number_of_slots Max size allocated per FlatBuffer payload
+   */
+  RingHeader (const uint32_t slot_size, const uint32_t number_of_slots) : slot_size_ (slot_size), number_of_slots_ (number_of_slots) {}
   ~RingHeader () = default;
 
   [[nodiscard]] uint32_t GetHead () const;

@@ -29,7 +29,7 @@
 template <typename T>
 struct SharedMemory
 {
-  explicit SharedMemory (const char *name) : name_ (name)
+  SharedMemory (const char *name, T header) : name_ (name), header_ (header)
   {
     fd_ = shm_open (name_, O_CREAT | O_RDWR, 0666);
     if (fd_ == -1)
@@ -58,7 +58,7 @@ struct SharedMemory
     // This prevents a secondary process from wiping out head/tail markers!
     if (buffer_->GetSlotSize () != header_.GetSlotSize ())
       {
-        ::new (map_) T ();
+        ::new (map_) T (header_.GetSlotSize (), header_.GetNumberOfSlots ());
       }
   }
 
@@ -102,13 +102,14 @@ struct SharedMemory
   }
 
 private:
+  // The order must be as follows matching the constructor
+  const char *name_;
   T           header_;
-  int         fd_;
-  std::size_t size_;
 
   T          *buffer_;
   void       *map_;
-  const char *name_;
+  int         fd_;
+  std::size_t size_;
 };
 
 #endif // CC_EXECUTABLE_SHAREDMEMORY_H
