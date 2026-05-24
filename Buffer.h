@@ -18,6 +18,7 @@
 #ifndef SIMPLEIPC_BUFFER_H
 #define SIMPLEIPC_BUFFER_H
 
+template <typename V>
 struct  Buffer
 {
   Buffer() = default;
