@@ -20,12 +20,20 @@
 #include <cstring>
 #include <iostream>
 
+/**
+ *
+ * @return slot_size_
+ */
 uint32_t
 RingHeader::GetSlotSize () const
 {
   return slot_size_;
 }
 
+/**
+ *
+ * @return number_of_slots_
+ */
 uint32_t
 RingHeader::GetNumberOfSlots () const
 {
